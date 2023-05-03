@@ -1,20 +1,14 @@
 from typing import Annotated
 
-from fastapi import APIRouter, Depends, HTTPException, Request, status
+from fastapi import APIRouter, Depends, HTTPException, status
 from fastapi.security import OAuth2PasswordRequestForm
 from sqlalchemy.orm import Session
 
-from ..config import Settings
-from .domain import authenticate_user, create_access_token
-from .schemas import Token
+from app.auth.domain import authenticate_user, create_access_token
+from app.auth.schemas import Token
+from app.dependencies import get_db
 
-settings = Settings()
-router = APIRouter(tags=["auth"])
-
-
-# Dependency
-def get_db(request: Request):
-    return request.state.db
+router = APIRouter()
 
 
 @router.post("/token", response_model=Token)

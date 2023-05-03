@@ -1,7 +1,8 @@
 from passlib.hash import bcrypt
 from sqlalchemy.orm import Session
 
-from ..auth.domain import create_access_token
+from app.auth.domain import create_access_token
+
 from . import models, schemas
 
 
@@ -24,4 +25,4 @@ def create_user(db: Session, user: schemas.UserCreate):
     db.add(db_user)
     db.commit()
     db.refresh(db_user)
-    return {"access_token": create_access_token(user.username), "token_type": "bearer"}
+    return db_user

@@ -7,10 +7,10 @@ from jose import JWTError, jwt
 from passlib.context import CryptContext
 from sqlalchemy.orm import Session
 
-from ..config import Settings
-from ..users import models
+from app.config import Settings
+from app.users import models
 
-oauth2_scheme = OAuth2PasswordBearer(tokenUrl="token")
+oauth2_scheme = OAuth2PasswordBearer(tokenUrl="/api/v1/token")
 settings = Settings()
 pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 
@@ -18,11 +18,7 @@ pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 def create_access_token(username: str) -> str:
     expires_delta = timedelta(minutes=settings.ACCESS_TOKEN_EXPIRE_MINUTES)
     to_encode = {"sub": username}
-    if expires_delta:
-        expire = datetime.utcnow() + expires_delta
-    else:
-        expire = datetime.utcnow() + timedelta(minutes=15)
-    to_encode.update({"exp": expire})
+    to_encode.update({"exp": datetime.utcnow() + expires_delta})
     encoded_jwt = jwt.encode(
         to_encode, settings.SECRET_KEY, algorithm=settings.ALGORITHM
     )
@@ -40,8 +36,6 @@ def token_required(token: Annotated[str, Depends(oauth2_scheme)]) -> str:
             token, settings.SECRET_KEY, algorithms=[settings.ALGORITHM]
         )
         username: str = payload.get("sub")
-        if username is None:
-            raise credentials_exception
     except JWTError:
         raise credentials_exception
     return username
