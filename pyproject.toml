@@ -1,0 +1,22 @@
+[tool.poetry]
+name = "fastapi-demo"
+version = "0.1.0"
+description = ""
+authors = ["Victor <admin@victorciurana.com>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.10"
+uvicorn = {extras = ["standard"], version = "^0.22.0"}
+black = "^23.3.0"
+isort = "^5.12.0"
+python-multipart = "^0.0.6"
+fastapi = "^0.95.1"
+python-jose = {extras = ["cryptography"], version = "^3.3.0"}
+passlib = {extras = ["bcrypt"], version = "^1.7.4"}
+sqlalchemy = "^2.0.12"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
