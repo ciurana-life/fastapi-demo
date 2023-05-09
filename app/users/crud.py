@@ -1,8 +1,6 @@
 from passlib.hash import bcrypt
 from sqlalchemy.orm import Session
 
-from app.auth.domain import create_access_token
-
 from . import models, schemas
 
 
