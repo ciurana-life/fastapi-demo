@@ -29,7 +29,11 @@ This will make the app run with sqlite and generate a sql_app.db file.
 
 ## Other commands
 Testing + coverage `pytest --cov=app --cov-report term-missing`
-Make migrations:
+
+## To make migrations
+First you have to import your new models to `app/db/base.py`
+
+Then:
 ```
 docker-compose run app poetry run alembic revision --autogenerate -m "DESCRIPTION"
 	docker-compose run app poetry run alembic upgrade head
